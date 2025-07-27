@@ -1,3 +1,6 @@
+--Инициализирует БД, пользователя, схему, необходимые таблицы и первоначальные данные 
+--sudo -u postgres psql -f db_init.sql
+
 DROP DATABASE test IF EXISTS;
 
 CREATE DATABASE test;
@@ -178,3 +181,153 @@ INSERT INTO "DWH".store (id,description) VALUES
 	 ('010a939e-00dd-4e9b-8e44-e1ce3f0406a8'::uuid,'Магазин 25'),
 	 ('f98b81ed-c627-437a-8ba4-4699ff2886ab'::uuid,'Магазин 26'),
 	 ('d33a1ea7-ae23-4fbc-9011-a8843029a1e6'::uuid,'Магазин 27');
+
+
+-- "DWH".reviews_external definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_external;
+
+CREATE TABLE "DWH".reviews_external (
+	"ID" int8 NOT NULL,
+	"Дата" date NULL,
+	"Резюме" text NULL,
+	"Тип отзыва" text NULL,
+	"Тема отзыва" text NULL,
+	"Вопрос в теме отзыва" text NULL,
+	"Тональность" text NULL,
+	"Автор" text NULL,
+	"Источник" text NULL,
+	"Магазин" text NULL,
+	"Ссылка" text NULL,
+	CONSTRAINT reviews_external_pkey PRIMARY KEY ("ID")
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_external OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_external TO "admin";
+
+
+-- "DWH".reviews_other definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_other;
+
+CREATE TABLE "DWH".reviews_other (
+	"Номер A" uuid NULL,
+	"Номер B" text NULL,
+	"Дата" date NULL,
+	"Тип" text NULL,
+	"Тема" text NULL,
+	"Вопрос в теме" text NULL,
+	"Источник" text NULL,
+	"Магазин" text NULL,
+	"Резюме" text NULL
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_other OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_other TO "admin";
+
+
+-- "DWH".reviews_products definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_products;
+
+CREATE TABLE "DWH".reviews_products (
+	"ID" int8 NOT NULL,
+	"Дата" date NULL,
+	"Рейтинг" int2 NULL,
+	"Достоинства" text NULL,
+	"Недостатки" text NULL,
+	"Резюме" text NULL,
+	"Тип отзыва" text NULL,
+	"Тема отзыва" text NULL,
+	"Вопрос в теме отзыва" text NULL,
+	"Тональность" text NULL,
+	"Пользователь" text NULL,
+	"Бренд" text NULL,
+	"Название продукта" text NULL,
+	CONSTRAINT reviews_products_pkey PRIMARY KEY ("ID")
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_products OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_products TO "admin";
+
+
+-- "DWH".reviews_stores definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_stores;
+
+CREATE TABLE "DWH".reviews_stores (
+	"ID" int8 NOT NULL,
+	"Дата" date NULL,
+	"Резюме" text NULL,
+	"Тип отзыва" text NULL,
+	"Тема отзыва" text NULL,
+	"Вопрос в теме отзыва" text NULL,
+	"Тональность" text NULL,
+	"Пользователь" text NULL,
+	"Адрес магазина" text NULL,
+	"Страница с которой отправлен отзы" text NULL,
+	CONSTRAINT reviews_stores_pkey PRIMARY KEY ("ID")
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_stores OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_stores TO "admin";
+
+
+-- "DWH".reviews_survey definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_survey;
+
+CREATE TABLE "DWH".reviews_survey (
+	"Дата опроса" date NOT NULL,
+	"ID анкеты" uuid NOT NULL,
+	"Магазин" text NULL,
+	"Order_ID" uuid NULL,
+	"Дата покупки" date NULL,
+	"Комментарий" text NULL,
+	"Тип" text NULL,
+	"ТипBPM" text NULL,
+	"Тема" text NULL,
+	"Вопрос в теме" text NULL,
+	"Опрос" text NULL,
+	"Сегмент" text NULL,
+	"Вопрос 1, рейтинг" int2 NULL,
+	"Вопрос 2, рейтинг" int2 NULL,
+	"Вопрос 3, рейтинг" int2 NULL,
+	"Вопрос 4, рейтинг" int2 NULL,
+	"Вопрос 5, рейтинг" int2 NULL,
+	"Вопрос 6, рейтинг" int2 NULL,
+	"Вопрос 7, рейтинг" int2 NULL,
+	"Вопрос 8, рейтинг" int2 NULL,
+	"Вопрос 9, рейтинг" int2 NULL,
+	"Вопрос 10, рейтинг" int2 NULL,
+	"Вопрос 11, рейтинг" int2 NULL,
+	CONSTRAINT reviews_survey_pkey PRIMARY KEY ("ID анкеты")
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_survey OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_survey TO "admin";
+
+
+-- "DWH".reviews_survey foreign keys
+
+ALTER TABLE "DWH".reviews_survey ADD CONSTRAINT reviews_survey_order_fk FOREIGN KEY ("Order_ID") REFERENCES "DWH"."order"(id);

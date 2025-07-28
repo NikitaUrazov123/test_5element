@@ -3,6 +3,7 @@
 Скрипты выполняются в airlfow. Код дагов расзмещен в папке dags.
 
 Алгоритм:
+
 0. db_init.sql инициалиалищирует ДБ, пользователя, схему и первичные данные; [ER-диагрмма достпна по ссылке](https://dbdiagram.io/e/6886aafacca18e685cf2b0ae/6886ab5fcca18e685cf2b5a2);
 
 1. Пример данных и csv файлы размещаются в smb(cifs) шаре в папках /test_5element/xlsx_input и /test_5element/csv_output";

@@ -330,4 +330,31 @@ GRANT ALL ON TABLE "DWH".reviews_survey TO "admin";
 
 -- "DWH".reviews_survey foreign keys
 
-ALTER TABLE "DWH".reviews_survey ADD CONSTRAINT reviews_survey_order_fk FOREIGN KEY ("Order_ID") REFERENCES "DWH"."order"(id);
+ALTER TABLE "DWH".reviews_survey ADD CONSTRAINT reviews_survey_order_fk FOREIGN KEY ("Order_ID") REFERENCES "DWH"."order"(id);\
+
+-- "DWH".reviews_final definition
+
+-- Drop table
+
+-- DROP TABLE "DWH".reviews_final;
+
+CREATE TABLE "DWH".reviews_final (
+	"ID" text NULL,
+	"Дата" date NULL,
+	"Источник" text NULL,
+	"Тип" text NULL,
+	"Тема" text NULL,
+	"Вопрос в теме" text NULL,
+	"Магазин" text NULL,
+	"Содержание" text NULL,
+	CONSTRAINT reviews_final_pk PRIMARY KEY ("ID", "Источник")
+);
+
+-- Permissions
+
+ALTER TABLE "DWH".reviews_final OWNER TO "admin";
+GRANT ALL ON TABLE "DWH".reviews_final TO "admin";
+
+CREATE INDEX idx_reviews_final_type ON "reviews_final" USING BTREE ("Тип");
+CREATE INDEX idx_reviews_final_source ON "reviews_final" USING BTREE ("Источник");
+CREATE INDEX idx_reviews_final_theme ON "reviews_final" USING BTREE ("Тема");

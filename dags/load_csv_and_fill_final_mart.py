@@ -100,7 +100,7 @@ def process_csv_task(postgres_cfg, smb_cfg, csv_name_dict):
             with open_file(path, mode="rb") as raw:
                 df = pd.read_csv(TextIOWrapper(raw, encoding="utf-8"))
 
-            cols_to_fix = [col for col in df.columns if ("тип" in col.lower()) or ("тема" in col.lower())]
+            cols_to_fix = [col for col in df.columns if ("тип" in col.lower()) or ("тема" in col.lower())] # исправление ошибок в полях со словами "тип" или "тема"
             for col in cols_to_fix:
                 df[col] = df[col].astype(str).apply(correct_with_yandex)
 
